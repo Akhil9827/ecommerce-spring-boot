@@ -84,7 +84,7 @@ public class CategoryServiceImpl implements CategoryService {
                 .orElseThrow(()-> new ResourceNotFoundException("Category","categoryId",categoryId));//with that optional checking if there is any value,if no valure throwing an exception
         Category category=modelMapper.map(categoryDTO,Category.class);
 
-        category.setCategoryId(categoryId);  //we are saving the category into the database
+        category.setCategoryId(categoryId);
         savedCategory=categoryRepository.save(category);
         return modelMapper.map(savedCategory, CategoryDTO.class);
 
