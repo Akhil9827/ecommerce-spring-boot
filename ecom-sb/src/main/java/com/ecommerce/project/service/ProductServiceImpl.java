@@ -11,6 +11,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.security.PublicKey;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -67,5 +68,38 @@ public class ProductServiceImpl implements ProductService {
         ProductResponse productResponse=new ProductResponse();
         productResponse.setContent(productDTOS);
         return productResponse;
+    }
+
+    @Override
+    public ProductResponse searchProductByKeyword(String keyword) {
+        List<Product> products=productRepository.findByProductNameLikeIgnoreCase('%' +keyword + '%');
+        List<ProductDTO> productDTOS=products.stream()
+                .map(product -> modelMapper.map(product,ProductDTO.class))
+                .toList();
+
+        ProductResponse productResponse=new ProductResponse();
+        productResponse.setContent(productDTOS);
+        return productResponse;
+
+    }
+
+    @Override
+    public ProductDTO updateProduct(Long productId, Product product) {
+        //Get the existing product from DB
+        Product productFromDb=productRepository.findById(productId)
+                .orElseThrow(() -> new ResourceNotFoundException("Product","productId",productId));
+
+        //update the product info with the one in request body
+        productFromDb.setProductName(product.getProductName());
+        productFromDb.setDescription(product.getDescription());
+        productFromDb.setQuantity(product.getQuantity());
+        productFromDb.setDiscount(product.getDiscount());
+        productFromDb.setPrice(product.getPrice());
+        productFromDb.setSpecialPrice(product.getSpecialPrice());
+
+
+        //Save to database
+        Product savedProduct=productRepository.save(productFromDb);
+        return modelMapper.map(savedProduct,ProductDTO.class);
     }
 }
