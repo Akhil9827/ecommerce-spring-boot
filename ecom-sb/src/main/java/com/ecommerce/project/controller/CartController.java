@@ -6,6 +6,7 @@ import com.ecommerce.project.payload.CartDTO;
 import com.ecommerce.project.repositories.CartRepository;
 import com.ecommerce.project.service.CartService;
 import com.ecommerce.project.util.AuthUtil;
+import io.jsonwebtoken.lang.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -49,4 +50,24 @@ public class CartController {
         CartDTO cartDTO=cartService.getCart(emailId, cartId);//we can use any one but we are using two beacuse we have our own design decisions we are taking cartid beacuse may be we will design in future a cartid has two carts using email beacuse for security resons this cart belongs to the loggedin user
         return new ResponseEntity<>(cartDTO,HttpStatus.OK);
     }
+
+    @PutMapping("/cart/products/{productId}/quantity/{operation}")
+    public ResponseEntity<CartDTO> updateCartProduct(@PathVariable Long productId,
+                                                     @PathVariable String operation){
+        CartDTO cartDTO=cartService.updateProductQuantityInCart(productId,
+                operation.equalsIgnoreCase("delete") ? -1:1);
+
+        return new ResponseEntity<>(cartDTO,HttpStatus.OK);
+    }
+
+    @DeleteMapping("/carts/{cartId}/product/{productId}")
+    public ResponseEntity<String> deleteProductFromCart(@PathVariable Long cartId,
+                                                        @PathVariable Long productId){
+        String status=cartService.deleteProductFromCart(cartId,productId);
+        return new ResponseEntity<>(status,HttpStatus.OK);
+
+    }
+
+
+
 }
