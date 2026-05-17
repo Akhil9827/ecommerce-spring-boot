@@ -1,0 +1,19 @@
+package com.ecommerce.project.payload;
+
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class OrderRequestDTO {
+    private Long addressId;
+    private String message;
+    private String paymentMethod;
+    private String pgName;
+    private Long pgPaymentId;
+    private String pgStatus;
+    private String pgResponseMessage;
+}
