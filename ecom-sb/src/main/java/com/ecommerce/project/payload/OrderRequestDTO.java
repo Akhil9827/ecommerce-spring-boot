@@ -13,7 +13,7 @@ public class OrderRequestDTO {
     private String message;
     private String paymentMethod;
     private String pgName;
-    private Long pgPaymentId;
+    private String pgPaymentId;
     private String pgStatus;
     private String pgResponseMessage;
 }

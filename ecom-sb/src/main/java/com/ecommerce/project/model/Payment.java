@@ -30,8 +30,8 @@ public class Payment {
     private String pgResponseMessage;
     private String pgName;
 
-    public Payment(Long paymentId,String pgPaymentId,String pgStatus,String pgResponseMessage,String pgName){ //A custom constructor is used for partial object initialization when only specific fields are required instead of all entity fields.
-        this.paymentId=paymentId;
+    public Payment(String paymentMethod,String pgPaymentId,String pgStatus,String pgResponseMessage,String pgName){ //A custom constructor is used for partial object initialization when only specific fields are required instead of all entity fields.
+        this.paymentMethod=paymentMethod;
         this.pgPaymentId=pgPaymentId;
         this.pgStatus=pgStatus;
         this.pgResponseMessage=pgResponseMessage;
